@@ -6,7 +6,7 @@ import jwt
 
 from .serializers import UserSerializer
 from .models import User
-from .decorators import jwt_required
+from auth.decorators import jwt_required
 
 # Create your views here.
 class RegisterView(APIView):
@@ -17,7 +17,7 @@ class RegisterView(APIView):
         return Response(serializer.data)
 
 class ListUserView(APIView):
-    @jwt_required
+    @jwt_required # only a valid token can access this view
     def get(self, request):
         users = User.objects.all()
         serializer = UserSerializer(users, many=True)

@@ -3,17 +3,25 @@
 # It could be helpful if you want to use db.sqlite3 in a bootstrap build without create a docker-compose.yml with db service
 # For example you could prepare a prod build with POSTGRES_ENABLED=1 and then a docker-compose.yml with db service and
 # pass connection arguments to auth service
-build:
+docker-build:
 ifdef POSTGRES_ENABLED
-	docker build  --build-arg POSTGRES_ENABLED=${POSTGRES_ENABLED} . --target dev -f docker/Dockerfile -t msalab01/auth:v1
+	docker build --build-arg POSTGRES_ENABLED=${POSTGRES_ENABLED} . -f docker/Dockerfile -t msalab01/auth:v1
 else
-	docker build . --target dev -f docker/Dockerfile -t msalab01/auth:v1
+	docker build . -f docker/Dockerfile -t msalab01/auth:v1
 endif
 
 # to specify a different exposed port: make run PORT=8001
-run:
+docker-run:
 ifdef PORT
 	docker run --name lab01_auth -d -p ${PORT}:8000 msalab01/auth:v1
 else
 	docker run --name lab01_auth -d -p 8000:8000 msalab01/auth:v1
 endif
+
+docker-stop:
+	docker rm lab01_auth -f
+
+local-build:
+	bash bootstrap.sh
+local-run:
+	bash start_local_server.sh

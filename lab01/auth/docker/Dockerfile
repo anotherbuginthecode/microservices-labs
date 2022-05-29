@@ -36,5 +36,4 @@ RUN chmod +x /usr/local/bin/start-server.sh
 USER web
 COPY --chown=web:web . ./
 
-EXPOSE 8000
 CMD ["start-server.sh"]

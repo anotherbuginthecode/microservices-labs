@@ -1,14 +1,10 @@
-# set POSTGRES_ENABLED=1 to tell docker that the container will use a postgres db.
+# set POSTGRES_ENABLED=1 in your docker-compose.yml to tell docker that the container will use a postgres db.
 # It will trigger entrypoint.sh to check if postregs connection is established before move on.
 # It could be helpful if you want to use db.sqlite3 in a bootstrap build without create a docker-compose.yml with db service
 # For example you could prepare a prod build with POSTGRES_ENABLED=1 and then a docker-compose.yml with db service and
 # pass connection arguments to auth service
 docker-build:
-ifdef POSTGRES_ENABLED
-	docker build --build-arg POSTGRES_ENABLED=${POSTGRES_ENABLED} . -f docker/Dockerfile -t msalab01/auth:v1
-else
 	docker build . -f docker/Dockerfile -t msalab01/auth:v1
-endif
 
 # to specify a different exposed port: make run PORT=8001
 docker-run:
@@ -20,6 +16,12 @@ endif
 
 docker-stop:
 	docker rm lab01_auth -f
+
+docker-logs:
+	docker logs lab01_auth -f
+
+docker-shell:
+	docker exec -it lab01_auth bash
 
 local-build:
 	bash bootstrap.sh

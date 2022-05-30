@@ -14,7 +14,7 @@ fi
 echo "Creating virtual environment (venv)..."
 if [ ! -d 'venv' ];
 then
-    python3 -m venv venv venv
+    python3 -m venv venv
     if [ $? -eq 1 ] 
     then
         echo "Vritual environment created."

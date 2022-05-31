@@ -1,0 +1,35 @@
+version: '3.5'
+
+services:
+  db:
+    image: postgres:10
+    restart: always
+    environment:
+      - POSTGRES_USER=${DB_USER:-postgres}
+      - POSTGRES_DB=${DB_NAME:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres_data_todo:/var/lib/postgresql/data/
+
+  app:
+    image: msalab01/todo:v1
+    restart: always
+    depends_on:
+      - db
+    environment:
+      - POSTGRES_ENABLED=1
+      - FLASK_ENV=${FLASKE_ENV:-production}
+      - DB_HOST=db
+      - DB_USER=${DB_USER:-postgres}
+      - DB_NAME=${DB_NAME:-postgres}
+      - DB_PASSWORD=${POSTGRES_PASSWORD:-postgres}
+      - DB_PORT=5432
+    volumes:
+      - ../:/app
+    ports:
+      - 5000:5000
+
+volumes:
+  postgres_data_todo:

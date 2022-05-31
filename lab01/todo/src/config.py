@@ -11,7 +11,6 @@ class Config:
 
 class DevelopmentConfig(Config):
     # uncomment the line below to use postgres
-    # SQLALCHEMY_DATABASE_URI = postgres_local_base
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'todo.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
@@ -22,9 +21,8 @@ class TestConfig(Config):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 class ProductionConfig(Config):
-    pass
-    # uncomment the line below to use postgres
-    # SQLALCHEMY_DATABASE_URI = postgres_local_base
+    SQLALCHEMY_DATABASE_URI = f"postgresql://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD')}@{os.getenv('DB_HOST')}/{os.getenv('DB_NAME')}"
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 config_by_name = dict(
     development=DevelopmentConfig,

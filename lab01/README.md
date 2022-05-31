@@ -1,4 +1,4 @@
-# Microservices lab01
+# Microservices Lab01
 
 In this laboratory I try to clear my doubts about how to secure services using an authorization and authentication micro-service.
 
@@ -17,7 +17,7 @@ Any type of interaction with the service is first passed to the authorization se
 
 **Server:** Python, Django, Flask
 
-**Container:** Docker
+**Container:** Docker, docker-compose
 
 
 

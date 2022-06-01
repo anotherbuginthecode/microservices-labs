@@ -1,8 +1,9 @@
 <template>
-  <div class="w-full h-screen flex justify-center">
+  <TheNavbar />
+  <section class="w-full mt-10 flex justify-center">
     <div class="w-1/2 flex justify-center items-center">
       <div class="w-full">
-        <h1 class="font-bold text-2xl text-center mb-5 text-neutral-900">TODO List</h1>
+        <h1 class="font-bold text-2xl text-center mb-5 text-neutral-900">TODO</h1>
         <div class="flex justify-center gap-x-5">
           <input
             v-model="newTask"
@@ -16,101 +17,115 @@
             + Add
           </button>
         </div>
-        <!-- list -->
-        <div id="todolistContainerNew" class="mt-10">
-          <div
-            v-for="(item,index) in todolist" :key="item.id"
-            class="border rounded border-solid border-gray-300 px-4 py-4 text-neutral-900 bg-white shadow-xl w-2/3 flex justify-between mb-5 m-auto"
-            :class="[item.completed ? 'line-through' : '']"
-            >
-            <p>{{item.text}}</p>
-            <div class="flex justify-around gap-x-5">
-              <svg
-                v-show="item.completed === false" 
-                @click="markAsCompleted(index, item)" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-300 cursor-pointer" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-              </svg>
-              <svg @click="deleteTask(todolist, index)" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-500 cursor-pointer" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
-              </svg>
-            </div>
-          </div>
-        </div>
+
+        <!-- new task -->
+        <TaskList 
+        @onEmitCompleted="markAsCompleted"
+        @onEmitDelete="deleteTask"
+        :list="todolist" />
 
         <div v-show="todolistCompleted.length > 0" class="w-1/3 border border-solid border-neutral-900 h-0.5 m-auto mb-5"></div>
 
-        <div id="todolistContainerCompleted">
-          <div
-            v-for="(item,index) in todolistCompleted" :key="item.id"
-            class="border rounded border-solid border-gray-300 px-4 py-4 text-neutral-900 bg-white shadow-xl w-2/3 flex justify-between mb-5 m-auto"
-            :class="[item.completed ? 'line-through' : '']"
-            >
-            <p>{{item.text}}</p>
-            <div class="flex justify-around gap-x-5">
-              <svg
-                v-show="item.completed === false" 
-                @click="markAsCompleted(index)" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-300 cursor-pointer" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-              </svg>
-              <svg @click="deleteTask(todolistCompleted, index)" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-500 cursor-pointer" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
-              </svg>
-            </div>
-          </div>
-        </div>
+        <!-- completed task -->
+        <TaskList 
+        @onEmitDelete="deleteTask"
+        :list="todolistCompleted" />
 
       </div>
 
     </div>
-  </div>
+  </section>
 </template>
 
 <script>
+import TaskList from '../components/Tasks/TaskList.vue'
+import TheNavbar from '../components/TheNavbar.vue';
+
+import { TODO_API } from '@/api/todo/http-common';
 
 export default {
-  name: 'Home',
-  data() {
-    return {
-      newTask: '',
-      todolist: [
-        {
-          'id': 1,
-          'text': 'Go to supermarket',
-          'completed': false
-        },
-        {
-          'id': 2,
-          'text': 'Write an article',
-          'completed': false
-        },
-      ],
-      todolistCompleted: [
-        {
-          'id': 3,
-          'text': 'Read 10 pages of a book',
-          'completed': true
-        }
-      ]
-    }
-  },
-  methods: {
-    markAsCompleted: function(index, item){
-      this.todolist[index].completed = true
-      this.todolist.splice(index,1)
-      this.todolistCompleted.push(item)
+    name: "Home",
+    emits: ["onEmitCompleted"],
+    components: { TaskList, TheNavbar },
+    data() {
+        return {
+            newTask: "",
+            todolist: [
+                {
+                    "id": 1,
+                    "text": "Go to supermarket",
+                    "completed": false
+                },
+                {
+                    "id": 2,
+                    "text": "Write an article",
+                    "completed": false
+                },
+            ],
+            todolistCompleted: []
+        };
     },
-    deleteTask: function(target, index){
-      target.splice(index,1)
-    },
-    addTask: function(){
-      this.todolist.push({
-        'id': 4,
-        'text': this.newTask,
-        'completed': false
+    mounted() {
+      TODO_API.get('/api/v1/todo/?completed=false')
+      .then(res => {
+        this.todolist = res.data.items
       })
-      this.newTask = ''
-    }
-  }
 
+      TODO_API.get('/api/v1/todo/?completed=true')
+      .then(res => {
+        this.todolistCompleted = res.data.items
+      })
+    },
+    methods: {
+        addTask: function () {
+            const payload = {
+                "text": this.newTask,
+                "completed": false
+            }
+            TODO_API.post('/api/v1/todo/', payload)
+            .then(res => {
+              this.todolist.push(res.data);
+            })
+            .catch(err => {
+              console.log(err)
+            })
+            this.newTask = "";
+        },
+        markAsCompleted: function(item){
+          // set as completed
+          TODO_API.post('/api/v1/todo/'+item.todo_id+'/completed/', {'completed': true})
+          .then(res => {
+            console.log(res.data)
+          })
+          .catch(err => {
+            console.log(err)
+          })
+          item.completed = true
+          // add to completed list
+          this.todolistCompleted.push(item)
+          //filter todo list
+          this.todolist = this.todolist.filter((elem) => {
+            return elem.todo_id != item.todo_id
+          })
+        },
+        deleteTask: function(item){
+          
+          TODO_API.delete('/api/v1/todo/'+item.todo_id+'/')
+          .then(res => {
+            console.log(res.data)
+          })
+          .catch(err => {
+            console.log(err)
+          })
+
+          this.todolist = this.todolist.filter((elem) => {
+            return elem.todo_id != item.todo_id
+          })
+
+          this.todolistCompleted = this.todolistCompleted.filter((elem) => {
+            return elem.todo_id != item.todo_id
+          })
+        }
+    }
 }
 </script>

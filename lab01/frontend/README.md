@@ -1,4 +1,4 @@
-# frontend - Oh no, another todo app!
+# Oh no, another todo app!
 
 ![screenshot](https://i.imgur.com/eyfJ5Wj.png)
 

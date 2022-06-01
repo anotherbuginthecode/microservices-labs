@@ -37,7 +37,7 @@
           </div>
         </div>
 
-        <div class="w-1/3 border border-solid border-neutral-900 h-0.5 m-auto mb-5"></div>
+        <div v-show="todolistCompleted.length > 0" class="w-1/3 border border-solid border-neutral-900 h-0.5 m-auto mb-5"></div>
 
         <div id="todolistContainerCompleted">
           <div

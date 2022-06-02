@@ -1,5 +1,5 @@
 
-![Banner](https://i.imgur.com/FOvHaSD.png)
+![Banner](https://i.imgur.com/VpfFb6c.png)
 
 
 A series of experiements while I'm learning about microservices architecture.

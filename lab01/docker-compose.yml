@@ -1,0 +1,88 @@
+version: '3.5'
+
+services:
+
+  auth_db:
+    image: postgres:10
+    restart: always
+    environment:
+      - POSTGRES_USER=${DB_USER:-postgres}
+      - POSTGRES_DB=${DB_NAME:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
+    volumes:
+      - postgres_data_auth:/var/lib/postgresql/data/
+    networks:
+      - backend_auth_network
+
+  todo_db:
+    image: postgres:10
+    restart: always
+    environment:
+      - POSTGRES_USER=${DB_USER:-postgres}
+      - POSTGRES_DB=${DB_NAME:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
+      - POSTGRES_PORT=${POSTGRES_PORT:-5433}
+    volumes:
+      - postgres_data_todo:/var/lib/postgresql/data/
+    networks:
+      - backend_todo_network
+
+  auth:
+    image: msalab01/auth:v1
+    restart: always
+    depends_on:
+      - auth_db
+    environment:
+      - POSTGRES_ENABLED=1
+      - DB_HOST=auth_db
+      - DB_USER=${DB_USER:-postgres}
+      - DB_NAME=${DB_NAME:-postgres}
+      - DB_PASSWORD=${POSTGRES_PASSWORD:-postgres}
+      - DB_PORT=5432
+    volumes:
+      - ./auth/:/home/web/code
+    ports:
+      - 8000:8000
+    networks:
+      - backend_auth_network
+      - frontend
+
+  todo:
+    image: msalab01/todo:v1
+    restart: always
+    depends_on:
+      - todo_db
+    environment:
+      - POSTGRES_ENABLED=1
+      - FLASK_ENV=${FLASKE_ENV:-production}
+      - DB_HOST=todo_db
+      - DB_USER=${DB_USER:-postgres}
+      - DB_NAME=${DB_NAME:-postgres}
+      - DB_PASSWORD=${POSTGRES_PASSWORD:-postgres}
+      - DB_PORT=5433
+      - AUTH_SERVICE_NAME=auth
+      - AUTH_SERVICE_PORT=8000
+    volumes:
+      - ./todo/:/app
+    ports:
+      - 5000:5000
+    networks:
+      - backend_todo_network
+      - frontend
+      
+  webapp:
+    image: msalab01/webapp:v1
+    restart: always
+    ports:
+      - 80:80
+    networks:
+      - frontend
+
+
+volumes:
+  postgres_data_auth:
+  postgres_data_todo:
+networks:
+  backend_auth_network:
+  backend_todo_network:
+  frontend:

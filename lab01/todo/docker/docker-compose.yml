@@ -25,7 +25,6 @@ services:
       - DB_USER=${DB_USER:-postgres}
       - DB_NAME=${DB_NAME:-postgres}
       - DB_PASSWORD=${POSTGRES_PASSWORD:-postgres}
-      - DB_PORT=5432
     volumes:
       - ../:/app
     ports:

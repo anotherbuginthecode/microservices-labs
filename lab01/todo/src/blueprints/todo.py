@@ -19,6 +19,9 @@ def todo():
     if request.method == 'POST':
         return create_new_todo(user_id=user.get('id'), text=request.json.get('text'))
     if request.method == 'GET':
+        completed = request.args.get('completed', None)
+        if completed:
+            return list_all_todos(user_id=user.get('id'), completed=completed)
         return list_all_todos(user_id=user.get('id'))
 
 @todo_bp.route('/<int:id>/', methods=('GET', 'PUT', 'DELETE'))

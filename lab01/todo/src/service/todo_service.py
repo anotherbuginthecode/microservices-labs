@@ -11,8 +11,11 @@ def create_new_todo(user_id,text):
     db.session.commit()
     return todo_schema.dump(new_todo), HTTP_201_CREATED
 
-def list_all_todos(user_id):
-    all_todos = Todo.query.filter_by(user_id=user_id)
+def list_all_todos(user_id, completed=None):
+    if completed:
+        all_todos = Todo.query.filter_by(user_id=user_id, completed=completed)
+    else:
+        all_todos = Todo.query.filter_by(user_id=user_id)
     return {'items': todos_schema.dump(all_todos)}, HTTP_200_OK
 
 def get_single_todo(user_id, todo_id):

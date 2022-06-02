@@ -1,6 +1,9 @@
 
 ![Banner](https://i.imgur.com/VpfFb6c.png)
 
+![GitHub last commit](https://img.shields.io/github/last-commit/anotherbuginthecode/microservices-labs?style=flat-square) 
+
+![GitHub top language](https://img.shields.io/github/languages/top/anotherbuginthecode/microservices-labs?style=flat-square)
 
 A series of experiements while I'm learning about microservices architecture.
 

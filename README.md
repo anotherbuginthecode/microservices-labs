@@ -1,5 +1,5 @@
 
-![Banner](https://i.imgur.com/VpfFb6c.png)
+![Banner](https://i.imgur.com/qiLTkD9.png)
 
 ![GitHub last commit](https://img.shields.io/github/last-commit/anotherbuginthecode/microservices-labs?style=flat-square) 
 

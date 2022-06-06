@@ -59,7 +59,7 @@ services:
       - DB_USER=${DB_USER:-postgres}
       - DB_NAME=${DB_NAME:-postgres}
       - DB_PASSWORD=${POSTGRES_PASSWORD:-postgres}
-      - DB_PORT=5433
+      - DB_PORT=5432
       - AUTH_SERVICE_NAME=auth
       - AUTH_SERVICE_PORT=8000
     volumes:

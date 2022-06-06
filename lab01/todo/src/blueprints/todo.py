@@ -2,7 +2,14 @@ from flask import Blueprint
 from flask import request
 
 from src.model.todo import Todo
-from src.service.todo_service import create_new_todo, list_all_todos, get_single_todo, update_todo, delete_todo, set_todo_as_completed
+from src.service.todo_service import (
+    create_new_todo, 
+    list_all_todos, 
+    get_single_todo, 
+    update_todo, 
+    delete_todo, 
+    set_todo_as_completed)
+
 from src.service.auth_service import Auth
 from src.decorators import is_authorized
 from src.helpers import extract_token

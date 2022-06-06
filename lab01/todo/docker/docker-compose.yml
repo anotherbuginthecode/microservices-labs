@@ -19,12 +19,14 @@ services:
     depends_on:
       - db
     environment:
-      - POSTGRES_ENABLED=1
+      - POSTGRES_ENABLED=${POSTGRES_ENABLED:-1}
       - FLASK_ENV=${FLASKE_ENV:-production}
       - DB_HOST=db
       - DB_USER=${DB_USER:-postgres}
       - DB_NAME=${DB_NAME:-postgres}
       - DB_PASSWORD=${POSTGRES_PASSWORD:-postgres}
+      - AUTH_SERVICE_NAME=${AUTH_SERVICE_NAME:-auth}
+      - AUTH_SERVICE_PORT=${AUTH_SERVICE_PORT:-8000}
     volumes:
       - ../:/app
     ports:

@@ -3,7 +3,8 @@
 
 <p float="middle">
   <img src="https://img.shields.io/github/last-commit/anotherbuginthecode/microservices-labs?style=flat-square" style="margin-left: 10px;" />
-  <img src="https://img.shields.io/github/languages/top/anotherbuginthecode/microservices-labs?style=flat-square" style="margin-left: 10px;"/> 
+  <img src="https://img.shields.io/github/forks/anotherbuginthecode/microservices-labs?style=flat-square" style="margin-left: 10px;"/>
+  <img src="https://img.shields.io/github/stars/anotherbuginthecode/microservices-labs?style=flat-square" style="margin-left: 10px;"/>
 </p>
 
 A series of experiements while I'm learning about microservices architecture.

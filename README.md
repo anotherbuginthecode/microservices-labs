@@ -29,4 +29,4 @@ A microservice called **todo** was developed to do this.
 
 Any type of interaction with the service is first passed to the authorization service (**auth**) which verifies that the token used is valid, otherwise it will be returned 401.
 
-[![Buymeacoffee](https://i.imgur.com/dcDxHET.png)](https://www.buymeacoffee.com/mangonedev)
+[![Buymeacoffee](https://i.imgur.com/PcXxuL3.png)](https://www.buymeacoffee.com/mangonedev)
